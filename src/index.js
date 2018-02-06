@@ -1,16 +1,16 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import {render} from 'react-dom';
+import store from './store';
+import getRoutes from './routes/routes';
 import registerServiceWorker from './registerServiceWorker';
-import { Provider } from 'react-redux';
-import Store from './store';
+import {Provider} from 'react-redux';
 
-const StoreInstance = Store();
+import './index.css';
 
-ReactDOM.render(
-        <Provider store={StoreInstance}>
-           <App />
-        </Provider>,
-        document.getElementById('root'));
+render(
+  <Provider store={store}>
+    {getRoutes()}
+  </Provider>,
+  document.getElementById('root')
+);
 registerServiceWorker();

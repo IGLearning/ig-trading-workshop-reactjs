@@ -1,8 +1,12 @@
 import { combineReducers } from 'redux';
-import clicked from './clicked';
+import { routerReducer } from 'react-router-redux';
+import login from './login';
+import valueChange from './valueChange';
 
 const rootReducer = combineReducers({
-  clicked
+  login,
+  username: valueChange,
+  routing: routerReducer
 });
 
 export default rootReducer;
