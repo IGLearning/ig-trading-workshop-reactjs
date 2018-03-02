@@ -1,8 +1,8 @@
-import {VALUE_CHANGE} from '../actions/actionTypes';
+import {USERNAME_CHANGE} from '../constants/actions';
 
 export default (state = '', payload) => {
   switch (payload.type) {
-    case VALUE_CHANGE:
+    case USERNAME_CHANGE:
       return payload.item;
     default:
       return state;

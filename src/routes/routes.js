@@ -1,23 +1,24 @@
 import React from 'react';
-import Markets from '../containers/home/home';
-import Login from '../containers/login/login';
-import About from '../containers/testAbout';
+import Signup from '../containers/signup/signup';
+import MarketView from '../containers/marketView/marketView';
+import {history} from '../store';
 import {
-  BrowserRouter as Router,
+  Router,
   Route,
   Switch
 } from 'react-router-dom';
 
-export default () => {
+const Routes = () => {
   return (
-    <Router>
+    <Router history={history}>
       <div>
         <Switch>
-          <Route exact path='/' component={Markets}/>
-          <Route exact path='/log-in' component={Login} />
-          <Route exact path='/about-us' component={About}/>
+          <Route exact path='/' component={MarketView}/>
+          <Route exact path='/sign-up' component={Signup}/>
         </Switch>
       </div>
     </Router>
-  );
-}
+  )
+};
+
+export default Routes;

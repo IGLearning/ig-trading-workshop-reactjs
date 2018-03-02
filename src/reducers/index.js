@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
-import login from './login';
-import valueChange from './valueChange';
+import signup from './signup';
+import usernameChange from './usernameChange';
+import getMarkets from './getMarkets';
 
 const rootReducer = combineReducers({
-  login,
-  username: valueChange,
+  getMarkets,
+  signup,
+  username: usernameChange,
   routing: routerReducer
 });
 
