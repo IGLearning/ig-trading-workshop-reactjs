@@ -35,6 +35,7 @@ class Signup extends Component {
             <TextField floatingLabelText='Username' onChange={(e) => this.handleChange(e)} style={style.username}
                        fullWidth={true}/>
             <RaisedButton label="Sign up" style={style.button} onClick={() => this.handleClick()}/>
+            {this.handleError()}
           </Paper>
         </form>
       </div>
@@ -48,10 +49,17 @@ class Signup extends Component {
   handleClick() {
     this.props.signup(this.props.username);
   }
+
+  handleError() {
+      if (this.props.error) {
+        return <p className={'error'}>{this.props.error}</p>
+      }
+  }
 }
 
 const mapStateToProps = (state) => ({
-  username: state.username
+  username: state.username,
+  error: state.signup.errorMessage
 });
 
 const mapDispatchToProps = (dispatch) => {

@@ -1,4 +1,4 @@
-import {USERNAME_CHANGE} from '../constants/actions';
+import {USERNAME_CHANGE} from '../constants/actionTypes';
 
 export default (state = '', payload) => {
   switch (payload.type) {

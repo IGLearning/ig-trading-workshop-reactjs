@@ -2,7 +2,7 @@ import {
   GET_CLIENT_SUCCESS,
   GET_CLIENT_FAILURE,
   GET_CLIENT_REQUEST
-} from '../constants/actions';
+} from '../constants/actionTypes';
 
 export default (state = [], action) => {
   switch (action.type) {

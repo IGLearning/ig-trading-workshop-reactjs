@@ -23,8 +23,7 @@ function signUp(username) {
       Accept: 'application/json'
     }
   })
-    .then((response) => checkStatus(response))
-    .catch((error) => console.log(error));
+    .then((response) => checkStatus(response));
 }
 
 function getMarkets() {
@@ -35,21 +34,16 @@ function getMarkets() {
       Accept: 'application/json'
     }
   })
-    .then((response) => checkStatus(response))
-    .catch((error) => console.log(error));
+    .then((response) => checkStatus(response));
 }
 
 function getClient(clientId) {
   return axios({
-    url: 'https://glacial-plateau-36826.herokuapp.com/workshop/client/{clientId}',
+    url: `https://glacial-plateau-36826.herokuapp.com/workshop/client/${clientId}`,
     method: 'GET',
     headers: {
       Accept: 'application/json'
-    },
-    params: {
-      clientId
     }
   })
-    .then((response) => checkStatus(response))
-    .catch((error) => console.log(error));
+    .then((response) => checkStatus(response));
 }

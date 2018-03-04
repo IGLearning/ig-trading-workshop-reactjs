@@ -46,6 +46,7 @@ export default class MarketTable extends Component {
           className={market.id}
           marketName={market.marketName}
           currentPrice={market.currentPrice}
+          handleClick={this.props.handleClick}
         />
       );
     });

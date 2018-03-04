@@ -2,26 +2,13 @@ import {
   GET_CLIENT_REQUEST,
   GET_CLIENT_SUCCESS,
   GET_CLIENT_FAILURE
-} from '../constants/actions';
+} from '../constants/actionTypes';
 import Api from '../api';
+import RestActions from './restActions';
 
 export const getClient = (clientId) => (dispatch) => {
-  dispatch(request());
+  dispatch(RestActions.request(GET_CLIENT_REQUEST));
   return Api.getClient(clientId)
-    .then((response) => dispatch(success(response.data)))
-    .catch((error) => dispatch(failure(error)))
+    .then((response) => dispatch(RestActions.success(GET_CLIENT_SUCCESS, response.data)))
+    .catch((error) => dispatch(RestActions.failure(GET_CLIENT_FAILURE, error.response.data)));
 };
-
-const request = () => ({
-  type: GET_CLIENT_REQUEST
-});
-
-const success = (data) => ({
-  type: GET_CLIENT_SUCCESS,
-  payload: data
-});
-
-const failure = (error)  => ({
-  type: GET_CLIENT_FAILURE,
-  payload: error
-});

@@ -1,23 +1,22 @@
 import {
-  GET_MARKETS_REQUEST,
-  GET_MARKETS_SUCCESS,
-  GET_MARKETS_FAILURE,
+  BUY_SUCCESS,
+  BUY_FAILURE,
+  BUY_REQUEST
 } from '../constants/actionTypes';
 
 export default (state = [], action) => {
   switch (action.type) {
-    case GET_MARKETS_REQUEST:
+    case BUY_REQUEST:
       return Object.assign({}, state, {
-        readyToRenderMarkets: false
+        isLoading: true
       });
-    case GET_MARKETS_SUCCESS:
+    case BUY_SUCCESS:
       return Object.assign({}, state, {
-        readyToRenderMarkets: true,
-        markets: action.payload
+        isLoading: false
       });
-    case GET_MARKETS_FAILURE:
+    case BUY_FAILURE:
       return Object.assign({}, state, {
-        readyToRenderMarkets: false,
+        isLoading: false, 
         errorMessage: action.payload
       });
     default:

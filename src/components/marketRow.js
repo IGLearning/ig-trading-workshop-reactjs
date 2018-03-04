@@ -26,7 +26,7 @@ export default class MarketRow extends Component {
           />
         </TableRowColumn>
         <TableRowColumn>
-          <BuySellButtons/>
+          <BuySellButtons handleClick={this.props.handleClick}/>
         </TableRowColumn>
       </TableRow>
     )

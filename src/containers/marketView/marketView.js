@@ -4,15 +4,13 @@ import {history} from '../../store';
 import {bindActionCreators} from 'redux';
 import {getMarkets} from '../../actions/getMarkets';
 import {getClient} from '../../actions/getClient';
+import {buy} from '../../actions/buy';
+import {sell} from '../../actions/sell';
 import MarketTable from '../../components/marketTable';
-import RaisedButton from 'material-ui/RaisedButton';
 import AppBar from 'material-ui/AppBar';
 import PersonalInformation from '../../components/personalInformation';
 
 const style = {
-  logout: {
-    backgroundColor: 'red'
-  },
   appBar: {
     backgroundColor: '#a2a2a2'
   }
@@ -32,7 +30,7 @@ class MarketView extends Component {
 
   componentDidMount() {
     this.marketsInterval = setInterval(this.props.getMarkets, 1000);
-    this.clientInterval= setInterval(this.props.getClient, 1000);
+    if (this.props.client) this.clientInterval = setInterval(this.props.getClient, 1000, this.props.client.id);
   }
 
   componentWillUnmount() {
@@ -44,33 +42,38 @@ class MarketView extends Component {
     if (this.shouldRender) {
       return (
         <div>
-          <AppBar style={style.appBar} title={`Market view - Welcome ${this.props.client.userName}`} showMenuIconButton={false} />
-          <PersonalInformation client={this.props.client}/>
-          <MarketTable markets={this.props.markets}/>
-          <RaisedButton
-            buttonStyle={style.logout}
-            label="Logout"
-            onClick={() => this.handleLogout()}
+          <AppBar
+            style={style.appBar}
+            title={`Market view - Welcome ${this.props.client.userName}`}
+            showMenuIconButton={false}
           />
+          <PersonalInformation client={this.props.client}/>
+          <MarketTable markets={this.props.markets} handleClick={this.handleClick}/>
         </div>
       )
     }
     return null;
   }
 
-  handleLogout() {
-    this.props.persistor.purge();
-    history.push('/sign-up');
+  readyToRender() {
+    return !!(this.props.readyToRenderMarkets && this.props.readyToRenderClient);
   }
 
-  readyToRender() {
-    return this.props.readyToRenderMarkets && this.props.readyToRenderClient;
+//should this happen on the level down? then pass up the value to buy at
+  handleClick(e) {
+    const textContent = e.target.textContent.toLowerCase();
+    if (textContent === 'buy') {
+      //need to get the clicked market and price
+      this.props.buy();
+    } else if (textContent === 'sell') {
+      this.props.sell();
+    }
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    clientId: state.signup.clientId,
+    closingPrice: state.sell.closingPrice,
     client: state.getClient.client,
     markets: state.getMarkets.markets,
     readyToRenderMarkets: state.getMarkets.readyToRenderMarkets,
@@ -81,6 +84,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
+    buy,
+    sell,
     getMarkets,
     getClient
   }, dispatch);

@@ -1,4 +1,4 @@
-import {SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE} from '../constants/actions';
+import {SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE} from '../constants/actionTypes';
 
 export default (state = [], action) => {
   switch (action.type) {
@@ -6,7 +6,6 @@ export default (state = [], action) => {
       return Object.assign({}, state, {isLoading: true});
     case SIGNUP_SUCCESS:
       return Object.assign({}, state, {
-        clientId: action.payload,
         isLoading: false,
         signedIn: true
       });

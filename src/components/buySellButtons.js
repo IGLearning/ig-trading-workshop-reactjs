@@ -20,13 +20,13 @@ export default class MarketRow extends Component {
           buttonStyle={style.button.buy}
           labelColor={'#fff'}
           label="Buy"
-          onClick={() => this.handleClick()}
+          onClick={(e) => this.props.handleClick(e)}
         />
         <RaisedButton
           buttonStyle={style.button.sell}
           labelColor={'#fff'}
           label="Sell"
-          onClick={() => this.handleClick()}
+          onClick={(e) => this.props.handleClick(e)}
         />
       </div>
     )

@@ -2,27 +2,13 @@ import {
   GET_MARKETS_REQUEST,
   GET_MARKETS_SUCCESS,
   GET_MARKETS_FAILURE,
-} from '../constants/actions';
+} from '../constants/actionTypes';
 import Api from '../api';
+import RestActions from './restActions';
 
 export const getMarkets = () => (dispatch) => {
-  dispatch(request());
+  dispatch(RestActions.request(GET_MARKETS_REQUEST));
   return Api.getMarkets()
-    .then((response) => dispatch(success(response.data)))
-    .catch((error) => dispatch(failure(error)));
+    .then((response) => dispatch(RestActions.success(GET_MARKETS_SUCCESS, response.data)))
+    .catch((error) => dispatch(RestActions.failure(GET_MARKETS_FAILURE, error.response.data)));
 };
-
-const request = () => ({
-  type: GET_MARKETS_REQUEST
-});
-
-const success = (data) => ({
-  type: GET_MARKETS_SUCCESS,
-  payload: data
-});
-
-const failure = (error) =>({
-  type: GET_MARKETS_FAILURE,
-  payload: error
-});
-
