@@ -2,17 +2,26 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import {history} from '../../store';
 import {bindActionCreators} from 'redux';
-import {logout} from '../../actions/logout';
 import {getMarkets} from '../../actions/getMarkets';
+import {getClient} from '../../actions/getClient';
 import MarketTable from '../../components/marketTable';
-import Styles from './marketView.style';
-import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
+import AppBar from 'material-ui/AppBar';
+import PersonalInformation from '../../components/personalInformation';
+
+const style = {
+  logout: {
+    backgroundColor: 'red'
+  },
+  appBar: {
+    backgroundColor: '#a2a2a2'
+  }
+};
 
 class MarketView extends Component {
 
   shouldComponentUpdate() {
-    this.shouldRender = this.props.readyToRenderMarkets;
+    this.shouldRender = this.readyToRender();
     return this.shouldRender;
   }
 
@@ -22,43 +31,58 @@ class MarketView extends Component {
   }
 
   componentDidMount() {
-    this.interval = setInterval(this.props.getMarkets, 1000);
+    this.marketsInterval = setInterval(this.props.getMarkets, 1000);
+    this.clientInterval= setInterval(this.props.getClient, 1000);
   }
 
   componentWillUnmount() {
-    clearInterval(this.interval);
+    clearInterval(this.marketsInterval);
+    clearInterval(this.clientInterval);
   }
 
   render() {
     if (this.shouldRender) {
       return (
-        <Paper style={Styles.paper} zDepth={3}>
+        <div>
+          <AppBar style={style.appBar} title={`Market view - Welcome ${this.props.client.userName}`} showMenuIconButton={false} />
+          <PersonalInformation client={this.props.client}/>
           <MarketTable markets={this.props.markets}/>
-          <RaisedButton style={Styles.logout} label="Logout" onClick={() => this.handleLogout()}/>
-        </Paper>
+          <RaisedButton
+            buttonStyle={style.logout}
+            label="Logout"
+            onClick={() => this.handleLogout()}
+          />
+        </div>
       )
     }
     return null;
   }
 
   handleLogout() {
+    this.props.persistor.purge();
     history.push('/sign-up');
-    this.props.logout();
+  }
+
+  readyToRender() {
+    return this.props.readyToRenderMarkets && this.props.readyToRenderClient;
   }
 }
 
 const mapStateToProps = (state) => {
   return {
+    clientId: state.signup.clientId,
+    client: state.getClient.client,
     markets: state.getMarkets.markets,
     readyToRenderMarkets: state.getMarkets.readyToRenderMarkets,
+    readyToRenderClient: state.getClient.readyToRenderClient,
     signedIn: state.signup.signedIn
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    logout,
-    getMarkets
+    getMarkets,
+    getClient
   }, dispatch);
 };
 

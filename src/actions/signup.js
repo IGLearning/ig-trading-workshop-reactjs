@@ -5,8 +5,8 @@ import Api from '../api';
 export const signup = (username) => (dispatch) => {
   dispatch(request());
   return Api.signUp(username)
-    .then(() => {
-      dispatch(success());
+    .then((response) => {
+      dispatch(success(response.data.clientId));
       dispatch(push('/'));
     })
     .catch((error) => dispatch(failure(error)))
@@ -16,8 +16,9 @@ const request = () => ({
   type: SIGNUP_REQUEST
 });
 
-const success = () => ({
-  type: SIGNUP_SUCCESS
+const success = (clientId) => ({
+  type: SIGNUP_SUCCESS,
+  payload: clientId
 });
 
 const failure = (error) =>({

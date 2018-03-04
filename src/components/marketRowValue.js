@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './marketRow.css';
+import './marketRowValue.css';
 
 export default class MarketRowValue extends Component {
   shouldComponentUpdate(nextProps) {
@@ -7,14 +7,26 @@ export default class MarketRowValue extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.direction = nextProps.value >= this.props.value ? 'up' : 'down';
+    this.calculateMovement(nextProps);
   }
 
-
-  //only change color for price
   render() {
     return (
-      <p className={`paragraph-${this.direction}`}>{this.props.value}</p>
+      <p className={`paragraph-${this.direction} column-${this.props.field}`}>{this.props.value}</p>
     )
+  }
+
+  calculateMovement(nextProps) {
+    if (this.props.field === 'currentPrice') {
+      if (nextProps.value >= this.props.value) {
+        this.direction = 'up';
+      } else if (nextProps.value <= this.props.value) {
+        this.direction = 'down';
+      } else {
+        this.direction = 'neutral';
+      }
+    } else {
+      this.direction = 'neutral'
+    }
   }
 }

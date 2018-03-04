@@ -8,13 +8,24 @@ import {
   Switch
 } from 'react-router-dom';
 
-const Routes = () => {
+const Routes = (persistor) => {
   return (
     <Router history={history}>
       <div>
         <Switch>
-          <Route exact path='/' component={MarketView}/>
-          <Route exact path='/sign-up' component={Signup}/>
+          <Route
+            exact
+            persistor={store.persistor}
+            path='/'
+            render={(() => <MarketView persistor={persistor}/>)}
+            component={MarketView}
+          />
+          <Route
+            exact
+            persistor={store.persistor}
+            path='/sign-up'
+            render={(() => <Signup persistor={persistor}/>)}
+          />
         </Switch>
       </div>
     </Router>

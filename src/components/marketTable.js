@@ -1,29 +1,38 @@
 import React, {Component} from 'react';
 import {
   Table,
-  TableBody,
   TableHeader,
-  TableHeaderColumn,
-  TableRow
+  TableBody
 } from 'material-ui/Table';
+import MarketTableHeader from '../components/marketTableHeader';
 import MarketRow from './marketRow';
+import Paper from 'material-ui/Paper';
+
+const style = {
+  paper: {
+    marginTop: 10,
+    marginLeft: 250,
+    height: 550,
+    width: 900,
+    textAlign: 'center',
+    display: 'inline-block',
+    padding: 0
+  }
+};
 
 export default class MarketTable extends Component {
   render() {
     return (
-      <Table>
-        <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-          <TableRow>
-            <TableHeaderColumn>Market ID</TableHeaderColumn>
-            <TableHeaderColumn>Market Name</TableHeaderColumn>
-            <TableHeaderColumn>Price</TableHeaderColumn>
-            <TableHeaderColumn>Action</TableHeaderColumn>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {this.renderMarkets()}
-        </TableBody>
-      </Table>
+      <Paper style={style.paper} zDepth={3}>
+        <Table>
+          <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+            <MarketTableHeader/>
+          </TableHeader>
+          <TableBody>
+            {this.renderMarkets()}
+          </TableBody>
+        </Table>
+      </Paper>
     );
   }
 
@@ -31,7 +40,13 @@ export default class MarketTable extends Component {
   renderMarkets() {
     return this.props.markets.map((market, i) => {
       return (
-        <MarketRow key={i} id={market.id} marketName={market.marketName} currentPrice={market.currentPrice}/>
+        <MarketRow
+          key={i}
+          id={market.id}
+          className={market.id}
+          marketName={market.marketName}
+          currentPrice={market.currentPrice}
+        />
       );
     });
   }

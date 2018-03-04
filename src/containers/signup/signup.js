@@ -7,18 +7,34 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import './signup.css';
-import Styles from './signup.style.js';
+
+const style = {
+  paper: {
+    height: 600,
+    width: 900,
+    textAlign: 'center',
+    display: 'inline-block',
+    padding: 100
+  },
+  username: {
+    fontSize: 24,
+    height: 100
+  },
+  button: {
+    backgroundColor: 'red'
+  }
+};
 
 class Signup extends Component {
   render() {
     return (
       <div className='signup-container'>
         <form className='signup-form'>
-          <Paper style={Styles.paper} zDepth={3}>
+          <Paper style={style.paper} zDepth={3}>
             <h1 className='signup-header'>Sign up</h1>
-            <TextField floatingLabelText='Username' onChange={(e) => this.handleChange(e)} style={Styles.username}
+            <TextField floatingLabelText='Username' onChange={(e) => this.handleChange(e)} style={style.username}
                        fullWidth={true}/>
-            <RaisedButton label="Sign up" style={Styles.button} onClick={() => this.handleClick()}/>
+            <RaisedButton label="Sign up" style={style.button} onClick={() => this.handleClick()}/>
           </Paper>
         </form>
       </div>

@@ -15,7 +15,7 @@ render(
   <MuiThemeProvider>
     <Provider store={store.store}>
       <PersistGate loading={null} persistor={store.persistor}>
-        {getRoutes()}
+        {getRoutes(store.persistor)}
       </PersistGate>
     </Provider>
   </MuiThemeProvider>,

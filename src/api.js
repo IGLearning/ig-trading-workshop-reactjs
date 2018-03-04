@@ -2,7 +2,8 @@ import axios from 'axios';
 
 export default {
   signUp,
-  getMarkets
+  getMarkets,
+  getClient
 };
 
 function checkStatus(response) {
@@ -32,6 +33,21 @@ function getMarkets() {
     method: 'GET',
     headers: {
       Accept: 'application/json'
+    }
+  })
+    .then((response) => checkStatus(response))
+    .catch((error) => console.log(error));
+}
+
+function getClient(clientId) {
+  return axios({
+    url: 'https://glacial-plateau-36826.herokuapp.com/workshop/client/{clientId}',
+    method: 'GET',
+    headers: {
+      Accept: 'application/json'
+    },
+    params: {
+      clientId
     }
   })
     .then((response) => checkStatus(response))
