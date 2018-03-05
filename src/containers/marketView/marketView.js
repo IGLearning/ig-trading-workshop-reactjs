@@ -9,6 +9,7 @@ import {sell} from '../../actions/sell';
 import MarketTable from '../../components/marketTable';
 import AppBar from 'material-ui/AppBar';
 import PersonalInformation from '../../components/personalInformation';
+import './marketView.css';
 
 const style = {
   appBar: {
@@ -17,6 +18,11 @@ const style = {
 };
 
 class MarketView extends Component {
+
+  constructor() {
+    super();
+    this.handleClick = this.handleClick.bind(this);
+  }
 
   shouldComponentUpdate() {
     this.shouldRender = this.readyToRender();
@@ -41,14 +47,20 @@ class MarketView extends Component {
   render() {
     if (this.shouldRender) {
       return (
-        <div>
+        <div className={'marketView'}>
           <AppBar
             style={style.appBar}
             title={`Market view - Welcome ${this.props.client.userName}`}
             showMenuIconButton={false}
           />
           <PersonalInformation client={this.props.client}/>
-          <MarketTable markets={this.props.markets} handleClick={this.handleClick}/>
+          <MarketTable
+            markets={this.props.markets}
+            handleClick={this.handleClick}
+            confirmation={this.props.confirmation}
+            errors={this.props.errors}
+            marketToTrade={this.marketToTrade}
+          />
         </div>
       )
     }
@@ -59,22 +71,18 @@ class MarketView extends Component {
     return !!(this.props.readyToRenderMarkets && this.props.readyToRenderClient);
   }
 
-//should this happen on the level down? then pass up the value to buy at
-  handleClick(e) {
-    const textContent = e.target.textContent.toLowerCase();
-    if (textContent === 'buy') {
-      //need to get the clicked market and price
-      this.props.buy();
-    } else if (textContent === 'sell') {
-      this.props.sell();
-    }
+  handleClick(action, market) {
+    this.props[action](market.id, this.props.client.id);
+    this.marketToTrade = market;
+    setTimeout(() => this.marketToTrade = undefined, 5000);
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    closingPrice: state.sell.closingPrice,
     client: state.getClient.client,
+    confirmation: state.trade.confirmation,
+    errors: state.trade.errorMessage,
     markets: state.getMarkets.markets,
     readyToRenderMarkets: state.getMarkets.readyToRenderMarkets,
     readyToRenderClient: state.getClient.readyToRenderClient,

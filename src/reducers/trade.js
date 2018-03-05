@@ -1,21 +1,21 @@
 import {
-  SELL_SUCCESS,
-  SELL_FAILURE,
-  SELL_REQUEST
+  TRADE_SUCCESS,
+  TRADE_FAILURE,
+  TRADE_REQUEST
 } from '../constants/actionTypes';
 
 export default (state = [], action) => {
   switch (action.type) {
-    case SELL_REQUEST:
+    case TRADE_REQUEST:
       return Object.assign({}, state, {
         isLoading: true
       });
-    case SELL_SUCCESS:
+    case TRADE_SUCCESS:
       return Object.assign({}, state, {
-        closingPrice: action.payload,
+        confirmation: action.payload,
         isLoading: false
       });
-    case SELL_FAILURE:
+    case TRADE_FAILURE:
       return Object.assign({}, state, {
         isLoading: false,
         errorMessage: action.payload

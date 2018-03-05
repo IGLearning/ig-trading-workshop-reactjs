@@ -4,12 +4,13 @@ import './personalInformation.css';
 
 const style = {
   paper: {
-    marginTop: 50,
-    marginLeft: 250,
+    marginTop: 25,
+    marginLeft: 'auto',
+    marginRight: 'auto',
     height: 100,
     width: 900,
     textAlign: 'center',
-    display: 'inline-block',
+    display: 'block',
     padding: 25
   }
 };

@@ -4,12 +4,10 @@ import signup from './signup';
 import usernameChange from './usernameChange';
 import getMarkets from './getMarkets';
 import getClient from './getClient';
-import buy from './buy';
-import sell from './sell';
+import trade from './trade';
 
 const rootReducer = combineReducers({
-  buy,
-  sell,
+  trade,
   getMarkets,
   signup,
   getClient,
