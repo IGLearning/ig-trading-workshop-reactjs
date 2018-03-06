@@ -6,7 +6,8 @@ import {getMarkets} from '../../actions/getMarkets';
 import {getClient} from '../../actions/getClient';
 import {buy} from '../../actions/buy';
 import {sell} from '../../actions/sell';
-import MarketTable from '../../components/marketTable';
+import {getOpenPositions} from '../../actions/getOpenPositions';
+import MarketTableTabs from '../../components/marketTableTabs';
 import AppBar from 'material-ui/AppBar';
 import PersonalInformation from '../../components/personalInformation';
 import './marketView.css';
@@ -21,7 +22,9 @@ class MarketView extends Component {
 
   constructor() {
     super();
-    this.handleClick = this.handleClick.bind(this);
+    this.handleBuy = this.handleBuy.bind(this);
+    this.handleSell = this.handleSell.bind(this);
+    this.getOpenPositions = this.getOpenPositions.bind(this);
   }
 
   shouldComponentUpdate() {
@@ -36,7 +39,9 @@ class MarketView extends Component {
 
   componentDidMount() {
     this.marketsInterval = setInterval(this.props.getMarkets, 1000);
-    if (this.props.client) this.clientInterval = setInterval(this.props.getClient, 1000, this.props.client.id);
+    if (this.props.client) {
+      this.clientInterval = setInterval(this.props.getClient, 1000, this.props.client.id);
+    }
   }
 
   componentWillUnmount() {
@@ -54,12 +59,18 @@ class MarketView extends Component {
             showMenuIconButton={false}
           />
           <PersonalInformation client={this.props.client}/>
-          <MarketTable
+          <MarketTableTabs
+            client={this.props.client}
             markets={this.props.markets}
-            handleClick={this.handleClick}
+            handleBuy={this.handleBuy}
+            handleSell={this.handleSell}
+            openPositions={this.props.openPositions}
+            getOpenPositions={this.getOpenPositions}
+            openPositionsError={this.props.openPositionsError}
             confirmation={this.props.confirmation}
             errors={this.props.errors}
             marketToTrade={this.marketToTrade}
+            positionToClose={this.positionToClose}
           />
         </div>
       )
@@ -71,10 +82,22 @@ class MarketView extends Component {
     return !!(this.props.readyToRenderMarkets && this.props.readyToRenderClient);
   }
 
-  handleClick(action, market) {
-    this.props[action](market.id, this.props.client.id);
-    this.marketToTrade = market;
+  handleBuy(market) {
+    this.props.buy(market.id, this.props.client.id);
+    this.marketToTrade = market.id;
     setTimeout(() => this.marketToTrade = undefined, 5000);
+    this.getOpenPositions(this.props.clientId);
+  }
+
+  handleSell(position) {
+    this.props.sell(position.id, this.props.client.id);
+    this.positionToClose = position.id;
+    setTimeout(() => this.positionToClose = undefined, 5000);
+    setTimeout(() => this.getOpenPositions(this.props.client.id), 500);
+  }
+
+  getOpenPositions() {
+    this.props.getOpenPositions(this.props.client.id);
   }
 }
 
@@ -84,6 +107,8 @@ const mapStateToProps = (state) => {
     confirmation: state.trade.confirmation,
     errors: state.trade.errorMessage,
     markets: state.getMarkets.markets,
+    openPositions: state.getOpenPositions.positions,
+    openPositionsError: state.getOpenPositions.errorMessage,
     readyToRenderMarkets: state.getMarkets.readyToRenderMarkets,
     readyToRenderClient: state.getClient.readyToRenderClient,
     signedIn: state.signup.signedIn
@@ -95,6 +120,7 @@ const mapDispatchToProps = (dispatch) => {
     buy,
     sell,
     getMarkets,
+    getOpenPositions,
     getClient
   }, dispatch);
 };

@@ -11,10 +11,10 @@ export default (state = [], action) => {
         isLoading: true
       });
     case TRADE_SUCCESS:
-      return Object.assign({}, state, {
+      return {
         confirmation: action.payload,
         isLoading: false
-      });
+      };
     case TRADE_FAILURE:
       return Object.assign({}, state, {
         isLoading: false,

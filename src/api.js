@@ -5,7 +5,8 @@ export default {
   getMarkets,
   getClient,
   buy,
-  sell
+  sell,
+  getOpenPositions
 };
 
 function checkStatus(response) {
@@ -65,5 +66,24 @@ function buy(marketId, clientId) {
     .then((response) => checkStatus(response));
 }
 
-function sell(marketId, clientId) {
+function getOpenPositions(clientId) {
+  return axios({
+    url: `https://glacial-plateau-36826.herokuapp.com/workshop/openPositions/${clientId}`,
+    method: 'GET',
+    headers: {
+      Accept: 'application/json'
+    }
+  })
+    .then((response) => checkStatus(response));
+}
+
+function sell(positionId, clientId) {
+  return axios({
+    url: `https://glacial-plateau-36826.herokuapp.com/workshop/openPositions/${clientId}/${positionId}`,
+    method: 'POST',
+    headers: {
+      Accept: 'application/json'
+    }
+  })
+    .then((response) => checkStatus(response));
 }

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import './message.css';
+import './openPositionRowMessage.css';
 
-export default class Message extends Component {
+export default class MarketRowMessage extends Component {
   render() {
     if (this.props.marketToTrade) {
       return (
@@ -14,14 +14,14 @@ export default class Message extends Component {
   }
 
   getValue() {
-    if (this.props.marketRowId === this.props.marketToTrade.id) {
+    if (this.props.positionId === this.props.positionToClose) {
       if (this.props.errors) {
         return <p className={'error'}>{this.props.errors}</p>
       } else if (this.props.confirmation) {
+        if (typeof(this.props.confirmation) === "number")
         return (
           <div className={'confirmation'}>
-            <span>Bought: 1 {this.props.marketToTrade.id} at {this.props.marketToTrade.currentPrice}</span>
-            <span>Id: {this.props.confirmation.openPositionId}</span>
+            <span>Closed position with a profit of {this.props.confirmation}</span>
           </div>
         );
       }

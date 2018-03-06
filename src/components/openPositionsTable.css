@@ -1,0 +1,12 @@
+.left {
+    clear: both;
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.openPositionsTable {
+    padding: 0 25px;
+}

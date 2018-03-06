@@ -32,10 +32,18 @@ class Signup extends Component {
         <form className='signup-form'>
           <Paper style={style.paper} zDepth={3}>
             <h1 className='signup-header'>Sign up</h1>
-            <TextField floatingLabelText='Username' onChange={(e) => this.handleChange(e)} style={style.username}
-                       fullWidth={true}/>
-            <RaisedButton label="Sign up" style={style.button} onClick={() => this.handleClick()}/>
-            {this.handleError()}
+            <TextField
+              floatingLabelText='Username'
+              onChange={(e) => this.handleChange(e)}
+              style={style.username}
+              fullWidth={true}
+              errorText={this.props.error}
+            />
+            <RaisedButton
+              label="Sign up"
+              style={style.button}
+              onClick={() => this.handleClick()}
+            />
           </Paper>
         </form>
       </div>
@@ -48,12 +56,6 @@ class Signup extends Component {
 
   handleClick() {
     this.props.signup(this.props.username);
-  }
-
-  handleError() {
-      if (this.props.error) {
-        return <p className={'error'}>{this.props.error}</p>
-      }
   }
 }
 
