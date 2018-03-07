@@ -6,7 +6,8 @@ export default {
   getClient,
   buy,
   sell,
-  getOpenPositions
+  getOpenPositions,
+  login
 };
 
 function checkStatus(response) {
@@ -18,15 +19,26 @@ function checkStatus(response) {
 }
 
 function signUp(username) {
-  return axios({
-    url: 'https://glacial-plateau-36826.herokuapp.com/workshop/client/createClient',
-    method: 'POST',
-    data: {userName: username},
-    headers: {
-      Accept: 'application/json'
-    }
-  })
-    .then((response) => checkStatus(response));
+    return axios({
+        url: 'https://glacial-plateau-36826.herokuapp.com/workshop/client/createClient',
+        method: 'POST',
+        data: {userName: username},
+        headers: {
+            Accept: 'application/json'
+        }
+    })
+        .then((response) => checkStatus(response));
+}
+
+function login(username) {
+    return axios({
+        url: `https://glacial-plateau-36826.herokuapp.com/workshop/client/login/${username}`,
+        method: 'GET',
+        headers: {
+            Accept: 'application/json'
+        }
+    })
+        .then((response) => checkStatus(response));
 }
 
 function getMarkets() {
