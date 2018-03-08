@@ -4,7 +4,6 @@ import Paper from 'material-ui/Paper';
 import {signup} from '../../actions/signup';
 import {usernameChange} from '../../actions/usernameChange';
 import RaisedButton from 'material-ui/RaisedButton';
-import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import './signup.css';
 
@@ -64,11 +63,9 @@ const mapStateToProps = (state) => ({
   error: state.signup.errorMessage
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
+const mapDispatchToProps = {
      signup,
      usernameChange
-   }, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);
