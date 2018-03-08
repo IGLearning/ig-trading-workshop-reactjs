@@ -16,7 +16,7 @@ export default class OpenPositionRow extends Component {
 
     constructor(props){
         super(props);
-        throw new Error();
+        throw new Error(); //Testing, remove before committing.
     }
   render() {
     const position = this.props.position;
