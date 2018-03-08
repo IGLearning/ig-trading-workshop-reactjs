@@ -13,8 +13,12 @@ const style = {
 };
 
 export default class OpenPositionRow extends Component {
+
+    constructor(props){
+        super(props);
+        throw new Error();
+    }
   render() {
-      throw new Error();
     const position = this.props.position;
     return (
       <TableRow>
